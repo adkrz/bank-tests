@@ -50,8 +50,9 @@ namespace BankProject
         public void Transfer(BankAccount other, double amount, ILogger logger)
         {
             logger.Info($"Transfer from {this} to {other}, amount {amount}");
-            other.Deposit(amount, logger);
+            // Fix: zla kolejnosc
             Withdraw(amount, logger);
+            other.Deposit(amount, logger);
         }
 
         public override string ToString()

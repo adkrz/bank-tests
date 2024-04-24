@@ -10,10 +10,12 @@ namespace BankProject
     public class Bank : IBank
     {
         private string _name { get; }
+        public IDateTimeService _dateTimeService { get; }
         private List<BankAccount> Accounts { get; }
-        public Bank(string name)
+        public Bank(string name, IDateTimeService dateTimeService)
         {
             _name = name;
+            _dateTimeService = dateTimeService;
             Accounts = new List<BankAccount>();
         }
 
@@ -23,7 +25,7 @@ namespace BankProject
         public bool IsNowOpen 
         {
             get { 
-                var now = DateTime.Now;
+                var now = _dateTimeService.Now;
                 return now.DayOfWeek >= DayOfWeek.Monday && now.DayOfWeek <= DayOfWeek.Friday && now.Hour >= 7 && now.Hour < 15;
             }
         }

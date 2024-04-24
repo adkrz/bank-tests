@@ -81,9 +81,24 @@ namespace TestProject
             acc2.Transfer(acc1, 0.2, _mockLogger);
 
             // Assert
-            Assert.Equal(0.3, acc1.Balance); // a co tu sie stalo? :P
+            Assert.Equal(0.3, acc1.Balance, 0.001); // a co tu sie stalo? :P
 
             // TODO: znalezc blad w logice TRANSFER, napisac regression testa i naprawic
+        }
+
+        [Fact]
+        public void TestTransferTooMuch()
+        {
+            // Arrange
+            var acc1 = new BankAccount("TEST1", 0.1);
+            acc1.Bank = _mockBank;
+            var acc2 = new BankAccount("TEST2", 0.2);
+            acc2.Bank = _mockBank;
+
+            // Assert
+            Assert.Throws<ArgumentOutOfRangeException>(() => acc2.Transfer(acc1, 0.5, _mockLogger));
+            Assert.Equal(0.1, acc1.Balance);
+            Assert.Equal(0.2, acc2.Balance);
         }
     }
 }
